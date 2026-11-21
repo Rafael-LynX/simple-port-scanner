@@ -8,17 +8,19 @@ A varredura de portas é o processo de sondar um host alvo para determinar quais
 
 ### How to function?
 
-A varredura de portas TCP explora o mecanismo de handshake de 3 vias, ele funciona assim, o nosso script envia a requisição `SYN` como uma tentativa de conexão ao alvo, se ele aceitar ele devolve `SYN-ACK` falando que porta está aberta e o serviço está ouvindo, então devolvemos `RST` para abortar o scanner e não completar o handshake, por que não queremos a conexão e sim informações. Nesse processo conseguimos as informações.
+A varredura de portas TCP explora o mecanismo de handshake de 3 vias, ele funciona assim, o nosso script envia a requisição `SYN` como uma tentativa de conexão ao alvo, se ele aceitar ele devolve `SYN-ACK` falando que porta está aberta e o serviço está ouvindo, então devolvemos `RST` para abortar o scanner e não completar o handshake, por que não queremos a conexão e sim as informações de porta aberta ou serviços rodando.
 
 Agora quando enviamos `SYN` e ele devolve `RST` podemos dizer que a porta está fechada.
 
 Ou quando enviamos `SYN` e ele não devolve nada, fica completamente em silêncio, quer dizer que ele bateu no firewall e o pacote dropou o pacote fazendo o script ficar esperando alguma resposta. Isso é uma das estratégias de defesa mais comuns.
 
+Após a conexão podemos capturar o banners do serviços mostrando informações de versões, se acharmos alguma vulnerabilidade compatível com a versão achada, podemos dizer este alvo está vulnerável.
+
 ## Key Features
 
-- `scan_port()`:
-- `execute_scan`:
-- `help_and_parameters`:
+- `scan_port()`: A função que faz a conexão com alvo para descobrir as portas abertas e trazer seus banners.
+- `execute_scan`: Motor do código que utiliza threads para trabalhar mais rápido realizando 100 scan por vez.
+- `help_and_parameters`: Garçom do código que traz a bandeja de parâmetros com `argparse`
 
 ## Installation & Setup
 
@@ -37,7 +39,7 @@ python3 portscan.py <port> <target>
 
 ## Screenshots
 
-Em breve
+<img src="assets/scrennshot.png" alt="" style="display: block; margin: 20px auto; max-width: 80%; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
 
 ## Built with
 
@@ -47,7 +49,8 @@ Em breve
 
 ```text
 ├── assets/
-├── docs/
+    ├── port-scanner.png
+    └── screenshot.png
 ├── venv/
 ├── LICENSE
 ├── README.md
